@@ -154,6 +154,57 @@ export const useChatStore = create((set, get) => ({
     socket.off("chatRequestRejected");
   },
 
+  editMessage: async (messageId, text) => {
+    try {
+      const res = await axiosInstance.put(`/messages/edit/${messageId}`, { text });
+      const { messages } = get();
+      set({
+        messages: messages.map((msg) => (msg._id === messageId ? res.data : msg)),
+      });
+      toast.success("Message edited successfully");
+      return res.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to edit message");
+    }
+  },
+
+  deleteMessage: async (messageId) => {
+    try {
+      await axiosInstance.delete(`/messages/delete/${messageId}`);
+      const { messages } = get();
+      set({
+        messages: messages.filter((msg) => msg._id !== messageId),
+      });
+      toast.success("Message deleted successfully");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete message");
+    }
+  },
+
+  subscribeToMessageUpdates: () => {
+    const socket = useAuthStore.getState().socket;
+
+    socket.on("messageEdited", (editedMessage) => {
+      const { messages } = get();
+      set({
+        messages: messages.map((msg) => (msg._id === editedMessage._id ? editedMessage : msg)),
+      });
+    });
+
+    socket.on("messageDeleted", ({ messageId }) => {
+      const { messages } = get();
+      set({
+        messages: messages.filter((msg) => msg._id !== messageId),
+      });
+    });
+  },
+
+  unsubscribeFromMessageUpdates: () => {
+    const socket = useAuthStore.getState().socket;
+    socket.off("messageEdited");
+    socket.off("messageDeleted");
+  },
+
   setSelectedUser: (selectedUser) => set({ selectedUser }),
 
   isChatAccepted: (selectedUserId) => {
