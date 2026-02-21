@@ -7,6 +7,7 @@ import { connectDB } from "./lib/db.js";
 
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
+import chatRequestRoutes from "./routes/chatRequest.route.js";
 import { app, server } from "./lib/socket.js";
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/chat-requests", chatRequestRoutes);
 
 // Error handler for body-parser errors
 app.use((err, req, res, next) => {

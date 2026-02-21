@@ -42,7 +42,7 @@ const LoginPage = () => {
               >
                 <MessageCircle className="size-6 text-primary" />
               </div>
-              <h1 className="text-3xl font-bold mt-4 tracking-tight">Welcome Back to Chatty</h1>
+              <h1 className="text-3xl font-bold mt-4 tracking-tight">Welcome Back to Hola Amigo</h1>
               <p className="text-base-content/60 text-lg">Your all-in-one real-time communication platform</p>
               <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm text-base-content/70">
                 <span className="flex items-center gap-1">✨ Real-time Messaging</span>
@@ -134,7 +134,7 @@ const LoginPage = () => {
       {/* Right Side - Image/Pattern */}
       <AuthImagePattern
         title={"Connecting People Worldwide"}
-        subtitle={"Join over 1 million users who trust Chatty for their daily communication. From instant messaging to secure file sharing, we've got everything you need to stay productive and connected."}
+        subtitle={"Join over 1 million users who trust Hola Amigo for their daily communication. From instant messaging to secure file sharing, we've got everything you need to stay productive and connected."}
       />
     </div>
   );

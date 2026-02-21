@@ -7,7 +7,9 @@ const MessageInput = () => {
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
-  const { sendMessage } = useChatStore();
+  const { sendMessage, selectedUser, isChatAccepted } = useChatStore();
+
+  const isAccepted = selectedUser ? isChatAccepted(selectedUser._id) : false;
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -46,6 +48,17 @@ const MessageInput = () => {
       console.error("Failed to send message:", error);
     }
   };
+
+  if (!isAccepted && selectedUser) {
+    return (
+      <div className="p-4 w-full flex items-center justify-center">
+        <div className="text-center text-base-content/60">
+          <p className="font-medium">Chat request not accepted yet</p>
+          <p className="text-sm">Wait for {selectedUser.fullName} to accept your request</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 w-full">
